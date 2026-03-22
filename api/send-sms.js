@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -9,7 +9,7 @@ export default async function handler(req, res) {
   const { provider, apiKey, phone, message, senderId } = req.body;
 
   if (!apiKey || !phone || !message) {
-    return res.status(400).json({ ok: false, error: 'Missing required fields' });
+    return res.status(400).json({ ok: false, error: 'Missing fields' });
   }
 
   const cleanPhone = phone.replace('+', '');
@@ -53,6 +53,6 @@ export default async function handler(req, res) {
     return res.json({ ok: false, error: text.substring(0, 80) });
 
   } catch (err) {
-    return res.status(500).json({ ok: false, error: 'Server error: ' + err.message });
+    return res.status(500).json({ ok: false, error: err.message });
   }
 }
